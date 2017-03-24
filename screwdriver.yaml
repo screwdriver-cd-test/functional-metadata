@@ -7,13 +7,13 @@ jobs:
     main:
         steps:
             - print: echo Starting main job!
-            - set_meta: meta set "foo" "foobar"
+            - set_meta: /opt/sd/meta set "foo" "foobar"
     second:
         steps:
             - print: echo Starting second job!
-            - check_meta: test "foobar" `meta get "foo"`
-            - set_meta: meta set "bar" "barbaz"
+            - check_meta: test "foobar" = `meta get "foo"`
+            - set_meta: /opt/sd/meta set "bar" "barbaz"
     third:
         steps:
             - print: echo Starting third job!
-            - check_meta: test "barbaz" `meta get "bar"`
+            - check_meta: test "barbaz" = `meta get "bar"`
