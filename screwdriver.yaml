@@ -7,7 +7,7 @@ jobs:
     main:
         steps:
             - print: echo Starting main job!
-            - ls: ls -la /ops/sd
+            - ls: ls -la /opt/sd
             - set_meta: meta set "foo" "foobar"
     second:
         steps:
