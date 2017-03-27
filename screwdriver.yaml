@@ -5,6 +5,7 @@ shared:
     image: node:6
 jobs:
     main:
+        template: screwdriver/testtemplate@1-test
         steps:
             - print: echo Starting main job!
             - ls: ls -la /opt/sd
