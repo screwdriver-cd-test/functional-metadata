@@ -1,11 +1,14 @@
+workflow:
+    - second
+    - third
 shared:
     image: node:6
 jobs:
     main:
         steps:
+            - set: meta set foo foobar
             - print: echo Starting main job!
             - ls: ls -la /opt/sd
-            - set: meta set "foo" "foobar"
     second:
         steps:
             - print: echo Starting second job!
