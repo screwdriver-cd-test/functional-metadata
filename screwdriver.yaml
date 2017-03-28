@@ -11,9 +11,9 @@ jobs:
     second:
         steps:
             - print: echo Starting second job!
-            - check_meta: test "foobar" `meta get "foo"`
+            - check_meta: test "foobar" = `meta get "foo"`
             - set_meta: meta set "bar" "barbaz"
     third:
         steps:
             - print: echo Starting third job!
-            - check_meta: test "barbaz" `meta get "bar"`
+            - check_meta: test "barbaz" = `meta get "bar"`
