@@ -6,8 +6,9 @@ shared:
 jobs:
     main:
         steps:
+            - set: meta set foo foobar
             - print: echo Starting main job!
-            - set_meta: meta set "foo" "foobar"
+            - ls: ls -la /opt/sd
     second:
         steps:
             - print: echo Starting second job!
