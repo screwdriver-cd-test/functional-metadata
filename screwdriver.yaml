@@ -1,6 +1,3 @@
-workflow:
-    - second
-    - third
 shared:
     image: node:6
 jobs:
@@ -8,12 +5,19 @@ jobs:
         steps:
             - print: echo Starting main job!
             - set_meta: meta set "foo" "foobar"
+        requires:
+            - ~pr
+            - ~commit
     second:
         steps:
             - print: echo Starting second job!
             - check_meta: test "foobar" = `meta get "foo"`
             - set_meta: meta set "bar" "barbaz"
+        requires:
+            - main
     third:
         steps:
             - print: echo Starting third job!
             - check_meta: test "barbaz" = `meta get "bar"`
+        requires:
+            - second
