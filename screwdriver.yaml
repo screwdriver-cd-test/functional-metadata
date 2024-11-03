@@ -23,5 +23,5 @@ jobs:
             - second
     detached:
         steps:
-            - print: echo Starting third job!
+            - print: echo Starting detached job!
             - check_meta: test "barbaz" = `meta get "bar"`        
