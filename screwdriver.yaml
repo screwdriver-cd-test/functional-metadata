@@ -21,6 +21,14 @@ jobs:
             - check_meta: test "barbaz" = `meta get "bar"`
         requires:
             - second
+    fourth:
+        steps:
+            - print: echo Starting fourth job!
+            - check_meta: |
+                test "foobar" = `meta get "foo"`
+                test "barbaz" = `meta get "bar"`
+        requires:
+            - third
     detached:
         steps:
             - print: echo Starting detached job!
