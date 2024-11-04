@@ -4,7 +4,13 @@ jobs:
     main:
         steps:
             - print: echo Starting main job!
-            - set_meta: meta set "foo" "foobar"
+            - set_meta: |
+                if [ -z "`meta get "foo"`" ]; then
+                    meta set "foo" "foobar"
+                else
+                    echo "Metadata already exists"
+                    meta set "foo" "foobarfoobar"
+                fi
         requires:
             - ~pr
             - ~commit
