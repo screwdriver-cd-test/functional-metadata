@@ -6,6 +6,7 @@ jobs:
             - print: echo Starting main job!
             - set_meta: |
                 foo=$(meta get "foo")
+                echo "foo is $foo"
                 if [ -z "$foo" ]; then
                     echo "foo is null"
                 else
