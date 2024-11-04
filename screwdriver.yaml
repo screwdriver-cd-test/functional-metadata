@@ -7,12 +7,13 @@ jobs:
             - set_meta: |
                 foo=$(meta get "foo")
                 echo "foo is $foo"
-                if [ -z "$foo" ]; then
-                    echo "foo is null"
+                if [ "$foo" = "null" ] || [ -z "$foo" ]; then
+                    echo "foo is null or empty"
+                    meta set "foo" "foobar"
                 else
                     echo "foo is not null"
+                    meta set "foo" "${foo}foobar"
                 fi
-                meta set "foo" "foobar"
         requires:
             - ~pr
             - ~commit
