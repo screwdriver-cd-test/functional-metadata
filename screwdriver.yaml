@@ -5,12 +5,13 @@ jobs:
         steps:
             - print: echo Starting main job!
             - set_meta: |
-                if [[ -z "`meta get "foo"`" ]]; then
-                    meta set "foo" "foobar"
+                foo=$(meta get "foo")
+                if [ -z "$foo" ]; then
+                    echo "foo is null"
                 else
-                    echo "Metadata already exists"
-                    meta set "foo" "foobarfoobar"
+                    echo "foo is not null"
                 fi
+                meta set "foo" "foobar"
         requires:
             - ~pr
             - ~commit
