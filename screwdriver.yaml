@@ -5,7 +5,7 @@ jobs:
         steps:
             - print: echo Starting main job!
             - set_meta: |
-                if [ -z "`meta get "foo"`" ]; then
+                if [[ -z "`meta get "foo"`" ]]; then
                     meta set "foo" "foobar"
                 else
                     echo "Metadata already exists"
