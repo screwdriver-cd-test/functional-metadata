@@ -32,13 +32,19 @@ jobs:
         requires:
             - second
     fourth:
-        steps:
-            - print: echo Starting fourth job!
-            - check_meta: |
-                test "foobar" = `meta get "foo"`
-                test "barbaz" = `meta get "bar"`
         requires:
             - third
+        annotations:
+            screwdriver.cd/virtualJob: true
+        steps:
+            - print: echo "echo Starting fourth job!"
+    fifth:
+        requires:
+            - fourth
+        steps:
+            - print: |
+                echo "foo: $(meta get "foo")"
+                echo "bar: $(meta get "bar")"
     detached:
         steps:
             - print: echo Starting detached job!
