@@ -20,14 +20,8 @@ jobs:
     second:
         steps:
             - print: echo Starting second job!
-            - check_meta: |
-                foo=$(meta get "foo")
-                if [ "$foo" = "null" ] || [ -z "$foo" ]; then
-                    exit 1
-                fi
-            - set_meta: |
-                set -e
-                meta set "bar" "barbaz"
+            - check_meta: test `meta get "foo"` != "null" -a `meta get "foo"` != ""
+            - set_meta: meta set "bar" "barbaz"
         requires: 
             - main
     third:
