@@ -21,13 +21,10 @@ jobs:
         steps:
             - print: echo Starting second job!
             - check_meta: |
-                # foo=$(meta get "foo")
-                # if [ "$foo" = "null" ] || [ -z "$foo" ]; then
-                #     exit 1
-                # else
-                #     exit 0
-                # fi
-                echo "foo is $(meta get foo)"
+                foo=$(meta get "foo")
+                if [ "$foo" = "null" ] || [ -z "$foo" ]; then
+                    exit 1
+                fi
             - set_meta: |
                 set -e
                 meta set "bar" "barbaz"
