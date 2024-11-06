@@ -17,6 +17,7 @@ jobs:
         requires:
             - ~pr
             - ~commit
+            - ~sd@15512:main
     second:
         steps:
             - print: echo Starting second job!
