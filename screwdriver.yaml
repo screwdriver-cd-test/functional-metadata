@@ -46,6 +46,8 @@ jobs:
                 echo "foo: $(meta get "foo")"
                 echo "bar: $(meta get "bar")"
     detached:
+        parameters:
+            p1: p1
         steps:
             - print: echo Starting detached job!
             - check_meta: test "barbaz" = `meta get "bar"`        
