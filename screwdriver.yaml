@@ -1,53 +1,47 @@
 shared:
-    image: node:6
+    image: node:22
+    steps:
+        - echo: echo "test"
+
 jobs:
-    main:
-        steps:
-            - print: echo Starting main job!
-            - set_meta: |
-                foo=$(meta get "foo")
-                echo "foo is $foo"
-                if [ "$foo" = "null" ] || [ -z "$foo" ]; then
-                    echo "foo is null or empty"
-                    meta set "foo" "foobar"
-                else
-                    echo "foo is not null"
-                    meta set "foo" "${foo}foobar"
-                fi
-        requires:
-            - ~pr
-            - ~commit
-            - ~sd@15512:main
-    second:
-        steps:
-            - print: echo Starting second job!
-            - check_meta: test `meta get "foo"` != "null" -a `meta get "foo"` != ""
-            - set_meta: meta set "bar" "barbaz"
-        requires: 
-            - main
-    third:
-        steps:
-            - print: echo Starting third job!
-            - check_meta: test "barbaz" = `meta get "bar"`
-        requires:
-            - second
-    fourth:
-        requires:
-            - third
+    hub:
+        requires: [ ~commit, ~pr ]
         annotations:
             screwdriver.cd/virtualJob: true
+
+    a:
+        requires: [ ~hub ]
         steps:
-            - print: echo "echo Starting fourth job!"
-    fifth:
-        requires:
-            - fourth
+            - set: meta set foo.bar "success"
+
+    b:
+        requires: [ ~hub ]
         steps:
-            - print: |
-                echo "foo: $(meta get "foo")"
-                echo "bar: $(meta get "bar")"
-    detached:
-        parameters:
-            p1: p1
+            - set: meta set foo.baz "success"
+            - wait: sleep 10
+
+    c:
+        requires: [ ~hub ]
         steps:
-            - print: echo Starting detached job!
-            - check_meta: test "barbaz" = `meta get "bar"`        
+            - set: meta set foo.bar "error"
+            - wait: sleep 20
+
+    d:
+        requires: [ ~hub ]
+        steps:
+            - set: meta set foo.baz "error"
+            - wait: sleep 20
+
+    virtual:
+        requires: [ a, b ]
+        annotations:
+            screwdriver.cd/virtualJob: true
+
+    target:
+        requires: [ ~virtual ]
+        blockedBy: [ ~c, ~d ]
+        steps:
+            - print: meta get "foo"
+            - check_meta: |
+                  test "success" = `meta get "foo.bar"`
+                  test "success" = `meta get "foo.baz"`
